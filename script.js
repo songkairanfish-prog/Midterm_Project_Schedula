@@ -27,7 +27,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 const selectedPillClasses = ["ring-4", "ring-emerald-300", "scale-110", "shadow-xl"] //gives selcted pill a orange ring
 
 // This function generates a unique key for storing event counts in localStorage based on the date.
-function eventKey(year, month, day) {
+function eventKey(year, month, day) { //You can find it in Application then localStorage in Inspect Element
     return `events - ${year} - ${month + 1} - ${day}`
 }
 
@@ -228,10 +228,6 @@ function renderCalendar() {
     }
 
     document.getElementById("month-text").textContent = monthNames[currentMonth] + " " + currentYear
-}
-
-function renderAllEvents(){
-    
 }
 
 document.getElementById("prev-btn").addEventListener("click", function(){

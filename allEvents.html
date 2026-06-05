@@ -12,76 +12,291 @@
     <div id="app" class="flex flex-col md:flex-row min-h-screen">
         
         <header class="md:hidden bg-gray-800 text-gray-200 px-5 py-5 flex items-center justify-between">
-
             <div class="flex items-center gap-3">
                 <div class="w-12 h-12 bg-white rounded-full"></div>
                 <h1 class="text-2xl">Schedula</h1>
             </div>
-
             <button id="menu-btn" class="w-12 h-12 rounded-full border-2 border-gray-200 text-3xl flex items-center justify-center pb-1.5">
                 ☰
             </button>
-
         </header>
  
         <nav id="mobile-menu" class="hidden md:hidden font-semibold flex flex-col gap-3 bg-gray-800 text-gray-200 px-5 pb-5">
-
             <a href="index.html" class="block text-xl">Main Page</a>
             <a href="allEvents.html" class="block text-xl rounded-2xl p-2 border border-white">All Events</a>
             <a href="aboutMe.html" class="block text-xl">About Me</a>
-
         </nav>
 
         <aside class="hidden md:flex w-64 fixed h-screen bg-gray-800 flex-col">
-
             <div class="Navigation w-full flex-1 flex flex-col mt-8 pl-8 text-gray-200">
-
                 <div class="Logo w-full h-24 flex items-center gap-3 mb-6">
-
                     <div class="w-[70px] h-[70px] bg-white rounded-full"></div>
                     <h1 class="text-2xl text-gray-200">Schedula</h1>
-
                 </div>
-
                 <div class="Main_Page w-full py-4 flex items-center">
-
                     <a href="index.html"><h1 class="text-xl">+ Main Page</h1></a>
-
                 </div>
-
                 <div class="All_Events w-full py-4 flex items-center">
-
                     <a href="allEvents.html"><h1 class="text-xl">- All Events</h1></a>
-                    
                 </div>
-
                 <div class="About_Me w-full py-4 flex items-center">
-
                     <a href="aboutMe.html"><h1 class="text-xl">+ About Me</h1></a>
-                    
                 </div>
-
             </div>
-
         </aside>
 
-        <main class="bg-gray-100 overflow-y-auto min-h-screen md:h-screen p-4 md:p-6 flex-1 mt-4 md:mt-8 mb-4 md:mb-8 mx-4 md:mr-8 md:ml-72 rounded-3xl shadow-lg">
-            <div class="">
-                <h1>hi</h1>
+        <main class="bg-gray-100 overflow-y-auto min-h-screen md:h-screen flex flex-col p-4 md:p-6 flex-1 mt-4 md:mt-8 mb-4 md:mb-8 mx-4 md:mr-8 md:ml-72 rounded-3xl shadow-lg">
+            <div class="flex-1">
+                <h1 class="text-3xl font-bold mb-6 text-center">All Events</h1>
+                <h2 class="text-base text-center">Dates with events will be displayed here</h2>
+
+                <div id="events-container" class="mt-8 md:mx-6 mx-1 flex flex-col gap-5">
+                    <!-- Event cards will be dynamically added here -->
+                </div>
+
+                <div class="w-full h-6 mt-6 md:mt-8 flex justify-center items-center">
+                    <div class="w-[70%] h-[50%] flex rounded-3xl border-2 border-gray-800"></div>
+                </div>
             </div>
+
+            <footer class="mt-auto pt-6 pb-4 border-t border-gray-300 flex justify-between items-center px-6 text-sm text-gray-500">
+                <p class="font-semibold text-gray-700">Schedula</p>
+                <p>Sok Korsovan - RUPP | 2026</p>
+            </footer>
+
         </main>
 
     </div>
 
+    <!-- Majority of these scripts are from Claude and Codex for complexity function, else self-learn code -->
     <script>
-    const menuBtn = document.getElementById("menu-btn")
-    const mobileMenu = document.getElementById("mobile-menu")
+        // Mobile menu toggle
+        const menuBtn = document.getElementById("menu-btn")
+        const mobileMenu = document.getElementById("mobile-menu")
 
-    menuBtn.addEventListener("click", function(){
-        mobileMenu.classList.toggle("hidden")
-    })
+        menuBtn.addEventListener("click", function(){
+            mobileMenu.classList.toggle("hidden")
+        })
+
+        // from script.js
+        const colorMap = {
+            default: "#9CA3AF",
+            red:     "#df7a7a",
+            orange:  "#F1B598",
+            green:   "#C4E9DA",
+            blue:    "#BEDAE3",
+            purple:  "#D3C7E6",
+            pink:    "#FED5CF"
+        }
+
+        const monthNames = ["January", "February", "March", "April", "May", "June", 
+                            "July", "August", "September", "October", "November", "December"]
+
+        // Track which pill is currently open
+        let openPillWrapper = null
+
+        function renderAllEvents(){
+            const eventsContainer = document.getElementById("events-container")
+            eventsContainer.innerHTML = ""
+            openPillWrapper = null
+
+            const allEvents = []
+
+            for(let i = 0; i < localStorage.length; i++){
+                const key = localStorage.key(i)
+
+                if(key.startsWith("events - ")){
+                    const parts = key.split(" - ")
+                    const year  = Number(parts[1])
+                    const month = Number(parts[2])
+                    const day   = Number(parts[3])
+                    const count = Number(localStorage.getItem(key))
+
+                    allEvents.push({
+                        year: year,
+                        month: month,
+                        day: day,
+                        count: count,
+                        date: new Date(year, month - 1, day)
+                    })
+                }
+            }
+
+            allEvents.sort(function(a, b){ return a.date - b.date })
+
+            allEvents.forEach(function(event, index){
+
+                // Wrapper holds pill + dropdown together
+                const wrapper = document.createElement("div")
+                wrapper.className = "flex flex-col"
+
+                // The pill  ← consistent name throughout!
+                const pill = document.createElement("div")
+
+                // Read saved color for this date
+                const colorKey = `color - ${event.year} - ${event.month} - ${event.day}`
+                const savedColor = localStorage.getItem(colorKey)
+                const dotColor = savedColor ? colorMap[savedColor] : colorMap["default"]
+
+                pill.className = "w-full rounded-t-full rounded-b-full border-2 border-black md:px-6 md:py-4 px-2 py-2 flex items-center justify-between text-xl bg-white cursor-pointer hover:shadow-md hover:scale-105 transition-all duration-200"
+
+                pill.innerHTML = `
+                    <span class="text-base md:text-xl">${index + 1}. ${monthNames[event.month - 1]} ${event.day} ${event.year}</span>
+                    <span class="text-base md:text-xl">${event.count} Event${event.count !== 1 ? "s" : ""}</span>
+
+                    <div class="flex items-center gap-4">
+                        <span class="dot md:w-8 md:h-8 w-6 h-6 rounded-full border-2 border-black" style="background-color: ${dotColor}"></span>
+                        <button class="delete-btn md:text-3xl text-2xl md:pb-1 leading-none hover:text-red-500 transition-colors">x</button>
+                    </div>
+                `
+
+                // Apply saved color to pill background too
+                if(savedColor && savedColor !== "default"){
+                    pill.style.backgroundColor = colorMap[savedColor]
+                }
+
+                // Dropdown panel (hidden by default)
+                const dropdown = document.createElement("div")
+                dropdown.className = "hidden bg-white border-2 border-black border-t-0 rounded-b-3xl px-6 py-5 flex flex-col gap-4"
+
+                const noteKey       = `${event.year} - ${event.month} - ${event.day}`
+                const savedNote     = localStorage.getItem(noteKey) || ""
+                const eventKey      = `events - ${event.year} - ${event.month} - ${event.day}`
+                const savedEventCount = localStorage.getItem(eventKey)
+
+                dropdown.innerHTML = `
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 md:gap-5">
+                            <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-black rounded-full bg-gray-400"    data-color="default"></div>
+                            <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-black rounded-full bg-red-400"     data-color="red"></div>
+                            <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-black rounded-full bg-orange-300"  data-color="orange"></div>
+                            <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-black rounded-full bg-emerald-200" data-color="green"></div>
+                            <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-black rounded-full bg-sky-200"     data-color="blue"></div>
+                            <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-black rounded-full bg-purple-200"  data-color="purple"></div>
+                            <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-black rounded-full bg-rose-100"    data-color="pink"></div>
+                        </div>
+                        <div id="event-section-${index}" class="flex flex-col items-center md:items-end mr-0 md:mr-4">
+                            <button class="event-indi-btn w-9 h-9 md:w-10 md:h-10 border-2 border-black rounded-full bg-orange-500 text-lg md:text-xl font-bold">!</button>
+                        </div>
+                    </div>
+                    <div class="mx-0 md:mx-20 rounded-3xl border-2 border-black">
+                        <textarea class="note-area w-full h-20 md:h-12 p-4 rounded-3xl outline-none resize-none bg-transparent" placeholder="Write your notes...">${savedNote}</textarea>
+                    </div>
+                `
+
+                // Apply saved color to dropdown background
+                if(savedColor && savedColor !== "default"){
+                    dropdown.style.backgroundColor = colorMap[savedColor]
+                }
+
+                // Color dot clicks inside dropdown
+                dropdown.querySelectorAll("[data-color]").forEach(function(dot){
+                    dot.addEventListener("click", function(){
+                        const chosen = this.dataset.color
+                        const pillDot = pill.querySelector(".dot")
+
+                        if(chosen === "default"){
+                            localStorage.removeItem(colorKey)               
+                            dropdown.style.backgroundColor = ""
+                            pill.style.backgroundColor = ""
+                            pillDot.style.backgroundColor = colorMap["default"]
+                        } else {
+                            localStorage.setItem(colorKey, chosen)          
+                            dropdown.style.backgroundColor = colorMap[chosen]
+                            pill.style.backgroundColor = colorMap[chosen]
+                            pillDot.style.backgroundColor = colorMap[chosen]
+                        }
+                    })
+                })
+
+                // Textarea auto-save
+                const textarea = dropdown.querySelector(".note-area")
+                textarea.addEventListener("input", function(){
+                    localStorage.setItem(noteKey, this.value)               // Bug fix: was notekey (lowercase k)
+                    this.style.height = "auto"
+                    this.style.height = this.scrollHeight + "px"
+                })
+
+                // "!" event count input
+                const eventIndiBtn = dropdown.querySelector(".event-indi-btn")
+                const eventSection = dropdown.querySelector(`#event-section-${index}`)
+
+                eventIndiBtn.addEventListener("click", function(){
+                    if(dropdown.querySelector(".event-input")) return
+
+                    const input = document.createElement("input")
+                    input.type = "number"
+                    input.className = "event-input border-2 border-black rounded-2xl text-center mt-2 mr-0 md:mr-3 w-14 md:w-12"
+                    input.min = "0"
+                    input.value = savedEventCount || ""
+                    eventSection.appendChild(input)
+
+                    input.addEventListener("input", function(){
+                        const count = Number(this.value)
+                        if(count > 0){
+                            localStorage.setItem(eventKey, count)
+                            pill.querySelector("span:nth-child(2)").textContent = `${count} Event${count !== 1 ? "s" : ""}`
+                        } else {
+                            localStorage.removeItem(eventKey)
+                        }
+                    })
+                })
+
+                // Pill click → toggle dropdown
+                pill.addEventListener("click", function(e){
+                    if(e.target.classList.contains("delete-btn")) return
+
+                    const isOpen = !dropdown.classList.contains("hidden")
+
+                    // Close any currently open dropdown
+                    if(openPillWrapper && openPillWrapper !== wrapper){
+                        const prevDropdown = openPillWrapper.children[1]
+                        const prevPill     = openPillWrapper.children[0]
+                        if(prevDropdown) prevDropdown.classList.add("hidden")
+                        if(prevPill){
+                            prevPill.classList.remove("rounded-b-none")
+                            prevPill.classList.add("rounded-full")
+                        }
+                        openPillWrapper = null
+                    }
+
+                    if(isOpen){
+                        dropdown.classList.add("hidden")
+                        pill.classList.remove("rounded-b-none")
+                        pill.classList.add("rounded-b-full")                  // Bug fix: was classlist (lowercase l)
+                        openPillWrapper = null
+                    } else {
+                        dropdown.classList.remove("hidden")
+                        pill.classList.remove("rounded-b-full")
+                        pill.classList.add("rounded-b-none")                // Bug fix: was classlist + wrong class added
+                        openPillWrapper = wrapper
+                    }
+                })
+
+                // "..." delete button
+                const deleteBtn = pill.querySelector(".delete-btn")
+                deleteBtn.addEventListener("click", function(e){
+                    e.stopPropagation()
+                    localStorage.removeItem(`events - ${event.year} - ${event.month} - ${event.day}`)
+                    renderAllEvents()                                        // Bug fix: was missing re-render call
+                })
+
+                wrapper.appendChild(pill)
+                wrapper.appendChild(dropdown)
+                eventsContainer.appendChild(wrapper)                        // Bug fix: was appending eventPill instead of wrapper
+            })
+
+            // Empty state
+            if(allEvents.length === 0){
+                const empty = document.createElement("p")
+                empty.className = "text-center text-gray-400 mt-10 text-lg"
+                empty.textContent = "No events yet! Add some from the main calendar."
+                eventsContainer.appendChild(empty)
+            }
+        }
+
+        renderAllEvents()
     </script>
     
 </body>
-
 </html>
