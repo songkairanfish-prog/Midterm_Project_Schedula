@@ -2,6 +2,15 @@ let currentMonth = 5
 let currentYear = 2026
 let selectedPill = null //for selected pill
 
+const menuBtn = document.getElementById("menu-btn")
+const mobileMenu = document.getElementById("mobile-menu")
+
+if(menuBtn && mobileMenu){
+    menuBtn.addEventListener("click", function(){
+        mobileMenu.classList.toggle("hidden")
+    })
+}
+
 const colorMap = {
                     default: "#9CA3AF",
                     red : "#df7a7a",
@@ -15,7 +24,7 @@ const colorMap = {
 const monthNames = ["January", "February", "March", "April", "May", "June", 
                     "July", "August", "September", "October", "November", "December"]
 
-const selectedPillClasses = ["ring-4", "ring-orange-400", "scale-110", "shadow-xl"] //gives selcted pill a orange ring
+const selectedPillClasses = ["ring-4", "ring-emerald-300", "scale-110", "shadow-xl"] //gives selcted pill a orange ring
 
 // This function generates a unique key for storing event counts in localStorage based on the date.
 function eventKey(year, month, day) {
@@ -35,7 +44,7 @@ function showEventIndicator(pill, count) {
     }
 
     const indicator = document.createElement("span")
-    indicator.className = "event-count absolute -top-2 -right-2 min-w-7 h-7 px-1 rounded-full border-2 border-black bg-orange-500 text-sm font-bold flex items-center justify-center"
+    indicator.className = "event-count absolute -top-1 -right-1 md:-top-2 md:-right-2 min-w-5 md:min-w-7 h-5 md:h-7 px-1 rounded-full border-2 border-black bg-orange-500 text-[10px] md:text-sm font-bold flex items-center justify-center z-10"
     indicator.textContent = count
     pill.appendChild(indicator)
 }
@@ -84,28 +93,28 @@ function renderCalendar() {
                 panel.innerHTML = `
                     <h2 class="text-center text-xl font-semibold">${dayNumber} ${monthNames[currentMonth]} ${currentYear}</h2>
 
-                    <div class="flex items-center justify-between mt-4">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-4">
 
-                        <div class="flex items-center gap-5">
+                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 md:gap-5">
                     
-                            <div class="w-6 h-6 border-2 border-black rounded-full bg-gray-400" data-color="default"></div>
-                            <div class="w-6 h-6 border-2 border-black rounded-full bg-red-500" data-color="red"></div>
-                            <div class="w-6 h-6 border-2 border-black rounded-full bg-yellow-400" data-color="orange"></div>
-                            <div class="w-6 h-6 border-2 border-black rounded-full bg-green-400" data-color="green"></div>
-                            <div class="w-6 h-6 border-2 border-black rounded-full bg-blue-400" data-color="blue"></div>
-                            <div class="w-6 h-6 border-2 border-black rounded-full bg-purple-400" data-color="purple"></div>
-                            <div class="w-6 h-6 border-2 border-black rounded-full bg-pink-400" data-color="pink"></div>
+                            <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-black rounded-full bg-gray-400" data-color="default"></div>
+                            <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-black rounded-full bg-red-400" data-color="red"></div>
+                            <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-black rounded-full bg-orange-300" data-color="orange"></div>
+                            <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-black rounded-full bg-emerald-200" data-color="green"></div>
+                            <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-black rounded-full bg-sky-200" data-color="blue"></div>
+                            <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-black rounded-full bg-purple-200" data-color="purple"></div>
+                            <div class="w-5 h-5 md:w-6 md:h-6 border-2 border-black rounded-full bg-rose-100" data-color="pink"></div>
                             
                         </div>
 
-                        <div id="event-section" class="flex flex-col items-end mr-4">
-                            <button id="event-btn" class="w-10 h-10 mr-4 border-2 border-black rounded-full bg-orange-500 text-xl font-bold">!</button>
+                        <div id="event-section" class="flex flex-col items-center md:items-end mr-0 md:mr-4">
+                            <button id="event-btn" class="w-9 h-9 md:w-10 md:h-10 border-2 border-black rounded-full bg-orange-500 text-lg md:text-xl font-bold">!</button>
                         </div>
 
                         </div>
 
-                        <div class="mx-20 mt-6 rounded-3xl border-2 border-black">
-                            <textarea class="w-full h-12 p-4 rounded-3xl outline-none resize-none bg-transparent" placeholder="Write your notes..."></textarea>
+                        <div class="mt-6 mx-0 md:mx-20 rounded-3xl border-2 border-black">
+                            <textarea class="w-full h-20 md:h-12 p-4 rounded-3xl outline-none resize-none bg-transparent" placeholder="Write your notes..."></textarea>
                         </div>
 
                     </div>
@@ -175,7 +184,7 @@ function renderCalendar() {
                     const input = document.createElement("input")
                     input.type = "number"
                     input.id = "event-input"
-                    input.className = "border-2 border-black rounded-2xl text-center mt-2 mr-3 w-12"
+                    input.className = "border-2 border-black rounded-2xl text-center mt-2 mr-0 md:mr-3 w-14 md:w-12"
                     input.min = "0"
                     input.value = savedEvent || ""
                     eventSection.appendChild(input)
@@ -197,11 +206,11 @@ function renderCalendar() {
             })
 
             if (dayNumber == today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()){
-                pill.className = "relative w-24 h-16 rounded-full border-black border-2 text-xl font-semibold flex items-center justify-center mt-4 mx-auto hover:scale-110 hover:shadow-lg transition-all duration-200 cursor-pointer bg-green-500"
+                pill.className = "relative md:w-24 w-10 h-8 md:h-16 rounded-full border-black border-2 md:text-xl text-sm font-semibold flex items-center justify-center mt-4 mx-auto hover:scale-110 hover:shadow-lg transition-all duration-200 cursor-pointer bg-green-500"
                 pill.style.backgroundColor = "#22c55e"
             }
             else{
-                pill.className = "relative w-24 h-16 rounded-full text-xl flex items-center justify-center mt-4 mx-auto hover:scale-110 hover:shadow-lg transition-all duration-200 cursor-pointer shadow-lg "
+                pill.className = "relative md:w-24 w-10 h-8 md:h-16 rounded-full md:text-xl text-sm flex items-center justify-center mt-4 mx-auto hover:scale-110 hover:shadow-lg transition-all duration-200 cursor-pointer shadow-lg "
                 pill.style.backgroundColor = colorMap["default"]
             }
 
@@ -219,6 +228,10 @@ function renderCalendar() {
     }
 
     document.getElementById("month-text").textContent = monthNames[currentMonth] + " " + currentYear
+}
+
+function renderAllEvents(){
+    
 }
 
 document.getElementById("prev-btn").addEventListener("click", function(){

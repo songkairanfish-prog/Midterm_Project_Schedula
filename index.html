@@ -10,11 +10,30 @@
 </head>
 <body class="bg-gray-800 min-h-screen">
 
-    <div id="app" class="flex min-h-screen">
+    <div id="app" class="flex flex-col md:flex-row min-h-screen">
 
-        
+        <header class="md:hidden bg-gray-800 text-gray-200 px-5 py-5 flex items-center justify-between">
 
-        <aside class="w-64 fixed h-screen bg-gray-800 flex flex-col">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-white rounded-full"></div>
+                <h1 class="text-2xl">Schedula</h1>
+            </div>
+
+            <button id="menu-btn" class="w-12 h-12 rounded-full border-2 border-gray-200 text-3xl flex items-center justify-center pb-1.5">
+                ☰
+            </button>
+
+        </header>
+ 
+        <nav id="mobile-menu" class="hidden md:hidden font-semibold flex flex-col gap-3 bg-gray-800 text-gray-200 px-5 pb-5">
+
+            <a href="index.html" class="block text-xl rounded-2xl p-2 border border-white">Main Page</a>
+            <a href="allEvents.html" class="block text-xl">All Events</a>
+            <a href="aboutMe.html" class="block text-xl">About Me</a>
+
+        </nav>
+
+        <aside class="hidden md:flex w-64 fixed h-screen bg-gray-800 flex flex-col">
 
             <div class="Navigation w-full flex-1 flex flex-col mt-8 pl-8 text-gray-200">
 
@@ -49,25 +68,25 @@
 
 
 
-        <main class="bg-gray-100 overflow-y-auto h-screen flex-1 mt-8 mb-8 mr-8 ml-72 rounded-3xl shadow-lg">
+        <main class="bg-gray-100 overflow-y-auto min-h-screen md:h-screen flex-1 mt-4 md:mt-8 mb-4 md:mb-8 mx-4 md:mr-8 md:ml-72 rounded-3xl shadow-lg">
 
-            <div class="p-6 flex flex-col">
+            <div class="p-4 md:p-6 flex flex-col">
 
-                <div class="w-full h-[50px] flex flex-row">
+                <div class="w-full flex flex-col gap-3 md:h-[50px] md:flex-row">
 
-                    <div class="w-[23.33%] flex-1">
+                    <div class="w-full md:w-[23.33%] flex-1 flex justify-center md:justify-start">
 
-                        <button class="w-12 h-12 rounded-full ml-1 text-3xl text-white border bg-gray-900 ">
+                        <button class="w-12 h-12 rounded-full text-3xl text-white border bg-gray-900 ">
                             O
                         </button>
 
                     </div>
 
-                    <div class="w-[53.33%] flex-1 flex flex-row justify-between ">
+                    <div class="w-full md:w-[53.33%] flex-1 flex flex-row justify-between gap-2">
 
-                        <div class="flex-1 mr-1 flex items-center justify-center">
+                        <div class="flex-1 flex items-center justify-center">
 
-                            <button id="prev-btn" class="w-16 h-12 pb-1 rounded-full text-4xl font-bold">
+                            <button id="prev-btn" class="w-14 h-12 pb-1 rounded-full text-4xl font-bold hover:scale-125 transition-transform duration-200">
                                 <
                             </button>
 
@@ -75,17 +94,17 @@
 
                         <div class="w-full flex items-center justify-center">
                             <!--This is the middle month and year-->
-                            <div id="month-label" class="w-full h-12 rounded-full flex items-center justify-center">
+                            <div id="month-label" class="w-full h-12 rounded-full flex items-center justify-center px-2">
 
-                                <p id="month-text" class="text-3xl">May 2026</p>
+                                <p id="month-text" class="text-2xl md:text-3xl text-center"></p>
 
                             </div>
 
                         </div>
 
-                        <div class="flex-1 ml-1 flex items-center justify-center">
+                        <div class="flex-1 flex items-center justify-center">
 
-                            <button id="next-btn" class="w-16 h-12 pb-1 rounded-full text-4xl font-bold">
+                            <button id="next-btn" class="w-14 h-12 pb-1 rounded-full text-4xl font-bold hover:scale-125 transition-transform duration-200">
                                 >
                             </button>
 
@@ -93,9 +112,9 @@
 
                     </div>
 
-                    <div class="flex-1 flex justify-end">
+                    <div class="w-full md:flex-1 flex justify-center md:justify-end">
 
-                        <div class="w-36 h-12 rounded-full flex flex-row mr-1 text-center border-2 border-black">
+                        <div class="w-36 h-12 rounded-full flex flex-row text-center border-2 border-black">
 
                             <button class="w-[50%] h-[100%] text-3xl">
                                 Y
@@ -112,18 +131,18 @@
                 </div>
 
 
-                <div class="px-10">
+                <div class="px-2 md:px-10">
 
                     <!-- Grid 1: Headers -->
-                    <div class="Calender_grid grid grid-cols-7 flex rounded-tl-3xl border-t-2 border-l-2 border-r-2 border-gray-800 rounded-tr-3xl mt-16 pt-6 bg-gray-100">
+                    <div class="Calender_grid grid grid-cols-7 flex rounded-tl-3xl border-t-2 border-l-2 border-r-2 border-gray-800 rounded-tr-3xl mt-10 md:mt-16 pt-4 md:pt-6 bg-gray-100">
                     
-                        <div class="text-2xl text-center rounded-2xl ml-5 mr-5">Mon</div>
-                        <div class="text-2xl text-center rounded-2xl ml-5 mr-5">Tue</div>
-                        <div class="text-2xl text-center rounded-2xl ml-5 mr-5">Wed</div>
-                        <div class="text-2xl text-center rounded-2xl ml-5 mr-5">Thu</div>
-                        <div class="text-2xl text-center rounded-2xl ml-5 mr-5">Fri</div>
-                        <div class="text-2xl text-center rounded-2xl ml-5 mr-5">Sat</div>
-                        <div class="text-2xl text-center rounded-2xl ml-5 mr-5">Sun</div>
+                        <div class="text-sm md:text-2xl text-center rounded-2xl mx-1 md:mx-5">Mon</div>
+                        <div class="text-sm md:text-2xl text-center rounded-2xl mx-1 md:mx-5">Tue</div>
+                        <div class="text-sm md:text-2xl text-center rounded-2xl mx-1 md:mx-5">Wed</div>
+                        <div class="text-sm md:text-2xl text-center rounded-2xl mx-1 md:mx-5">Thu</div>
+                        <div class="text-sm md:text-2xl text-center rounded-2xl mx-1 md:mx-5">Fri</div>
+                        <div class="text-sm md:text-2xl text-center rounded-2xl mx-1 md:mx-5">Sat</div>
+                        <div class="text-sm md:text-2xl text-center rounded-2xl mx-1 md:mx-5">Sun</div>
                 
                     </div>
 
@@ -131,11 +150,11 @@
 
                     </div>
 
-                    <div class="w-full h-6 mt-8 flex justify-center items-center">
+                    <div class="w-full h-6 mt-6 md:mt-8 flex justify-center items-center">
                         <div class="w-[70%] h-[50%] flex rounded-3xl border-2 border-gray-800"></div>
                     </div>
 
-                    <div id="day-panel" class="mt-8 px-5 pb-10 pt-5 w-full flex-1 border-2 border-gray-800 rounded-3xl bg-gray-100 hidden">
+                    <div id="day-panel" class="mt-8 px-4 md:px-5 pb-10 pt-5 w-full flex-1 border-2 border-gray-800 rounded-3xl bg-gray-100 hidden">
                         
                     </div>
 

@@ -12,7 +12,7 @@
 
     <div id="app" class="flex flex-col md:flex-row min-h-screen">
 
-        <header class="md:hidden bg-gray-800 text-gray-200 px-5 py-5 flex items-center justify-between">
+       <header class="md:hidden bg-gray-800 text-gray-200 px-5 py-5 flex items-center justify-between">
 
             <div class="flex items-center gap-3">
                 <div class="w-12 h-12 bg-white rounded-full"></div>
@@ -24,8 +24,8 @@
             </button>
 
         </header>
-
-        <nav id="mobile-menu" class="hidden md:hidden font-semibold flex flex-row items-center justify-between bg-gray-800 text-gray-200 p-5">
+ 
+        <nav id="mobile-menu" class="hidden md:hidden font-semibold flex flex-col gap-3 bg-gray-800 text-gray-200 px-5 pb-5">
 
             <a href="index.html" class="block text-xl">Main Page</a>
             <a href="allEvents.html" class="block text-xl">All Events</a>
@@ -66,21 +66,21 @@
             
         </aside>
 
-        <main class="bg-gray-100 overflow-y-auto min-h-screen md:h-screen p-6 md:p-6 flex-1 mt-4 md:mt-8 mb-4 md:mb-8 mx-4 md:mr-8 md:ml-72 rounded-3xl shadow-lg">
+        <main class="bg-gray-100 overflow-y-auto min-h-screen md:h-screen p-4 md:p-6 flex-1 mt-4 md:mt-8 mb-4 md:mb-8 mx-4 md:mr-8 md:ml-72 rounded-3xl shadow-lg">
 
             <div class="md:px-10 flex flex-col">
                 
                 <div class="">
-                    <h1 class="text-6xl text-center font-semibold">My Story</h1>
+                    <h1 class="text-4xl md:text-6xl text-center font-semibold">My Story</h1>
                 </div>
 
                 <div class="mt-8 flex flex-col md:flex-row gap-6">
 
-                    <div class="w-full md:w-[30%] h-full bg-pink-200 rounded-3xl overflow-hidden flex items-center justify-center">
+                    <div class="w-full md:w-[30%] h-full bg-pink-200 rounded-3xl overflow-hidden flex items-center justify-center shadow-xl">
                         <img src="./picture/Testing.jpg" class="w-full h-full object-cover" alt="Profile Picture">
                     </div>
 
-                    <div class="w-full md:w-[70%] bg-white rounded-3xl p-6">
+                    <div class="w-full md:w-[70%] shadow-xl bg-white rounded-3xl p-6">
                         <h2 class="text-3xl font-semibold mb-4">Sok Korsovan - Daniel</h2>
 
                         <p class="text-lg leading-relaxed ">
@@ -99,10 +99,10 @@
 
                 <div class="mt-7">
 
-                    <p class="mx-0 text-center md:mx-16 md:text-center text-base md:text-lg leading-relaxed p-4 md:p-6 rounded-3xl bg-white">
+                    <p class="mx-0 md:mx-16 text-left md:text-center text-base md:text-lg leading-relaxed p-4 md:p-6 rounded-3xl shadow-xl bg-white">
                         The purpose of this project is to develop a simple and user-friendly scheduling website 
                         that allows users to manage their events and appointments efficiently. The website provides 
-                        an intuitive and visually appealing interface where users can easily add, edit, delete, and view 
+                        visually appealing interface where users can easily add, edit, delete, and view 
                         events in a calendar notes. Its main goal is to help users stay organized while offering a robust 
                         user experience.
                     </p>
@@ -132,4 +132,5 @@
     </script>
 
 </body>
+
 </html>
